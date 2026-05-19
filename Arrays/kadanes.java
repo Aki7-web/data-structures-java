@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class jeci {
+public class kadanes {
 
     public static void kadanes(int numbers[]){
         int ms= Integer.MIN_VALUE; //maxsum
