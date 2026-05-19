@@ -18,6 +18,7 @@ public class jeci {
             }
         }
         System.out.println(ms);
+        System.out.println();
     }
             
     public static void main(String[] args) {
