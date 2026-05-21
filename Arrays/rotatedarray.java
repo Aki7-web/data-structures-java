@@ -19,7 +19,7 @@ public class rotatedarray {
                 low=mid+1; //going to the right side if target not in left side
             }
         }else{ //if right array is sorted
-            if(target>=numbers[mid] && target<=numbers[high]){ //finding target
+            if(target>=numbers[mid] && target<=numbers[high]){ //finding target in right
                 low=mid+1;
             }else{
                 high=mid-1; //going to left if target not in right
