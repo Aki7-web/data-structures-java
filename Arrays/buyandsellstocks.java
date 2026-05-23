@@ -19,7 +19,7 @@ public class buyandsellstocks {
     }
 
     public static void main(String args[]){
-        int stock[]={7,1,5,3,6,4};
+        int stock[]={7,6,4,3,1};
         System.out.println(stocks(stock));
     }
 
