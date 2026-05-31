@@ -4,8 +4,8 @@ public class updateBit {
     }
     public static int updateBit(int n, int i, int newBit){
         n= clearIthBit(n, i);
-        newBit= newBit<<i;
-        return n | newBit;
+        int bitMask= newBit<<i;
+        return n | bitMask;
     }
     public static void main(String args[]){
         System.out.println(updateBit(10, 0, 1));
