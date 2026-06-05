@@ -7,7 +7,6 @@
 
 //Q3 Write a program to findLength of aStringusing Recursion
 
-//Q4 We are given a string S,we needtofindthecount of all contiguous substrings starting and ending with the same character
 
 public class practice {
     public static void keyIndice(int arr[],int idx ,int key){
@@ -37,9 +36,7 @@ public class practice {
         return lengthString(str, idx+1);
     }
 
-    public static int subString(String str){
-        
-    }
+
 
     public static void main(String[] args) {
         // int arr[]={1,5,3,4,5,4,7,5,4,3,7,5};
