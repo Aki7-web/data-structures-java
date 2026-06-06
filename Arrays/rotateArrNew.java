@@ -26,6 +26,7 @@ public class rotateArrNew {
 
     public static void main(String[] args) {
         int arr[]={4,5,6,7,0,1,2};
+        // boolean a="sun"<"apple";
         System.out.println(rotateArr(arr,0,0,arr.length-1));
     }
 }

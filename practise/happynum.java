@@ -20,5 +20,6 @@ public class happynum {
 
     public static void main(String[] args) {
         System.out.println(happy(42));
+        
     }
 }
