@@ -258,6 +258,7 @@ public class LinkedList {
         }
         return true;
     }
+
     public static void main(String[] args) {
         LinkedList ll= new LinkedList();
         ll.addFirst(1);
