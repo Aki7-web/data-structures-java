@@ -261,6 +261,8 @@ public class LinkedList {
         return true;
     }
 
+    //mergesort code
+
     public Node findMidd(Node head){
         Node slow = head;
         Node fast = head.next;
@@ -322,6 +324,46 @@ public class LinkedList {
         return mergedLL;
     }
 
+    //zigzag ll code
+
+    public void zigzagLL(Node head){
+        //find mid
+        Node mid= findMidd(head);
+        Node curr= mid.next;
+        mid.next=null;
+
+        //reverse 2nd half
+        Node prev=null;
+        Node next;
+        while(curr!=null){
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+
+        Node left = head;
+        Node right=prev;
+
+        //alternate merge
+        Node nextL;
+        Node nextR;
+        while(right!=null && left!=null){
+            nextL=left.next;
+            nextR=right.next;
+            left.next=right;
+            right.next=nextL;
+
+            left=nextL;
+            right=nextR;
+        }
+        // if(left!=null){
+        //     left.next=null;
+        //     return;
+        // }
+        
+    }
+
     public static void main(String[] args) {
         LinkedList ll= new LinkedList();
         ll.addFirst(1);
@@ -329,6 +371,7 @@ public class LinkedList {
         ll.addFirst(3);
         ll.addFirst(4);
         ll.addFirst(5);
+        //ll.addFirst(6);
        // ll.add(5, 2);
        ll.print();
        // System.out.println(ll.size);
@@ -344,7 +387,9 @@ public class LinkedList {
       //  ll.removeNthEnd(3);
         //ll.print();
        // System.out.println(ll.checkPalindrome());
-        ll.head=ll.mergeSort(ll.head);
+       // ll.head=ll.mergeSort(ll.head);
+        //ll.print();
+        ll.zigzagLL(head);
         ll.print();
 
     }
