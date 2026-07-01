@@ -25,6 +25,7 @@ public class LinkedList {
         //if linked list is initially empty
         if(head==null){
             head=tail=newNode;
+            return;
         }
 
         //or point newnodes next to head
@@ -40,6 +41,7 @@ public class LinkedList {
         size++;
         if(head==null){
             head=tail=newNode;
+            return;
         }
 
         tail.next=newNode;
@@ -259,14 +261,76 @@ public class LinkedList {
         return true;
     }
 
+    public Node findMidd(Node head){
+        Node slow = head;
+        Node fast = head.next;
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        return slow;
+    }
+
+    public Node merge(Node left, Node right){
+        Node mergeLL= new Node(-1);
+        Node temp= mergeLL;
+        
+        while(left!=null && right !=null){
+            if(left.data<=right.data){
+                temp.next=left;
+                left=left.next;
+                temp=temp.next;
+            }else{
+                temp.next=right;
+                right=right.next;
+                temp=temp.next;
+            }
+        }
+
+        while(left!=null){
+            temp.next=left;
+            temp=temp.next;
+            left=left.next;
+        }
+        while(right!=null){
+            temp.next=right;
+            temp=temp.next;
+            right=right.next;
+        }
+
+        return mergeLL.next;
+    }
+
+    public Node mergeSort(Node head){ //O(nlogn)
+
+        //base
+        if(head==null || head.next==null){
+            return head;
+        }
+
+        //mid find
+        Node mid= findMidd(head);
+        Node rightHead= mid.next;
+        mid.next=null;
+
+        //left - right MS
+        Node newLeft= mergeSort(head);
+        Node newRight= mergeSort(rightHead);
+
+        //merge
+        Node mergedLL= merge(newLeft,newRight);
+        return mergedLL;
+    }
+
     public static void main(String[] args) {
         LinkedList ll= new LinkedList();
         ll.addFirst(1);
         ll.addFirst(2);
-        ll.addLast(1);
-        ll.addLast(2);
+        ll.addFirst(3);
+        ll.addFirst(4);
+        ll.addFirst(5);
        // ll.add(5, 2);
-        ll.print();
+       ll.print();
        // System.out.println(ll.size);
         //ll.print();
         //System.out.println(ll.size);
@@ -279,7 +343,9 @@ public class LinkedList {
         //ll.print();
       //  ll.removeNthEnd(3);
         //ll.print();
-        System.out.println(ll.checkPalindrome());
+       // System.out.println(ll.checkPalindrome());
+        ll.head=ll.mergeSort(ll.head);
+        ll.print();
 
     }
 }
