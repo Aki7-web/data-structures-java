@@ -13,6 +13,15 @@ public class BinaryTrees {
         }
     }
 
+    static class Infoo{
+            Node node;
+            int hd;
+            Infoo(Node node,int hd){
+                this.hd=hd;
+                this.node=node;
+            }
+        }
+
      static class Info{
             int d;
             int h;
@@ -199,6 +208,119 @@ public class BinaryTrees {
             // Otherwise search in left and right subtrees
             return isSubtree(root.leftNode, subroot) || isSubtree(root.righNode, subroot);
         }
+
+        
+
+        //top overview of tree
+        public static void topView(Node root){
+            HashMap<Integer,Node> map= new HashMap<>();
+            Queue<Infoo> q= new LinkedList<>();
+            q.add(new Infoo(root, 0));
+            q.add(null);
+            int max=0,min=0; 
+            while(!q.isEmpty()){
+                Infoo curr= q.remove(); 
+                if(curr==null){
+                    if(q.isEmpty()){
+                        break;
+                    }else{
+                        q.add(null);
+                    }
+                }else{
+                    if(!map.containsKey(curr.hd)){
+                        map.put(curr.hd, curr.node);
+                    }
+                    if(curr.node.leftNode!=null){
+                        q.add(new Infoo(curr.node.leftNode,curr.hd-1));
+                        min=Math.min(min,curr.hd-1);
+                    }
+                    if(curr.node.righNode!=null){
+                        q.add(new Infoo(curr.node.righNode,curr.hd+1));
+                        max=Math.max(max,curr.hd+1);
+                    }
+                }
+            }
+
+            for(int i=min;i<=max;i++){
+                System.out.print(map.get(i).data+" ");
+            }
+            System.out.println();
+        }
+
+        public static void printKlevel(Node root, int level, int k){
+            if(root==null){
+                return;
+            }
+            if(level==k){
+                System.out.print(root.data+" ");
+                return;
+            }
+            printKlevel(root.leftNode, level+1, k);
+            printKlevel(root.righNode, level+1, k);
+        }
+
+        public static Boolean getPath(Node root, int n, ArrayList<Node> path){
+
+            if (root==null){
+                return false;
+            }
+            if(root.data==n){
+                return true;
+            }
+            path.add(root);
+
+            Boolean foundLeft = getPath(root.leftNode, n, path);
+            Boolean foundRight = getPath(root.righNode, n, path);
+
+            if(foundLeft || foundRight){
+                return  true;
+            }
+
+            path.remove(path.size()-1);
+            return false;
+        }
+
+        public static Node lca(Node root,int n1, int n2) {//lowest common ancestor
+            //aux space of arraylist O(n), rec stack space ,O(n) time
+            ArrayList<Node> path1= new ArrayList<>();
+            ArrayList<Node> path2= new ArrayList<>();
+
+            getPath(root, n1, path1);
+            getPath(root, n2, path2);
+
+            int i=0;
+            for(;i<path1.size()&& i<path2.size();i++){
+                if(path1.get(i)!=path2.get(i)){
+                    break;
+                }
+            }
+
+            Node lca=path1.get(i-1);
+           
+
+            return lca;
+
+
+        }
+
+        public static Node lca2(Node root,int n1, int n2){ //no extra auxliary space , only recursion stack O(n) space and time complx
+            if(root==null || root.data==n1 || root.data==n2 ){
+                return root;
+            }
+
+            Node leftLca= lca2(root.leftNode, n1, n2);
+            Node rightLca= lca2(root.righNode, n1, n2);
+
+            if(leftLca==null){
+                return rightLca;
+            }
+            if(rightLca==null){
+                return leftLca;
+            }
+
+            return root;
+        }
+
     }
 
     public static void main(String[] args) {
@@ -212,7 +334,7 @@ public class BinaryTrees {
         //System.out.println(root.data);
         //tree.preorder(root);
         //tree.inorder(root);
-        //tree.levelorder(subroot);
+        //tree.levelorder(root);
         //System.out.println(tree.height(root));
         //System.out.println(tree.nodes(root));
         //System.out.println(tree.sumNodes(root));
@@ -220,7 +342,13 @@ public class BinaryTrees {
         // Info i=tree.diameterOpt(root);
         // System.out.println(i.d);
         // System.out.println(i.h);
-        System.out.println(tree.isSubtree(root, subroot));
+        //System.out.println(tree.isSubtree(root, subroot));
+        //tree.topView(root);
+        //tree.printKlevel(root, 1, 2);
+        //System.out.println(tree.lca(root, 5, 6).data);
+        System.out.println(tree.lca2(root, 5, 6).data);
+
+
     }
 }
 
