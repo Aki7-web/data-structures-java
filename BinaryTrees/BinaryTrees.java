@@ -321,10 +321,89 @@ public class BinaryTrees {
             return root;
         }
 
+        public static int lcaDis(Node root, int n){
+            if(root==null){
+                return -1;
+            }
+            if(root.data==n){
+                return 0;
+            }
+
+            int lefDist= lcaDis(root.leftNode, n);
+            int righDist= lcaDis(root.righNode, n);
+
+            if(lefDist==-1 && righDist==-1){
+                return -1;
+            }else if(lefDist==-1){
+                return righDist+1;
+            }else{
+                return lefDist+1;
+            }
+        }
+
+        public static int minDis(Node root, int n1, int n2){//number of edges / in between the nodes
+            Node lca= lca(root, n1, n2);
+
+            int dis1 =lcaDis(lca, n1);
+            int dis2= lcaDis(lca, n2);
+
+           return dis1+dis2;
+
+        }
+
+        public static int KAncestor(Node root, int n, int k){//kth ancestor of node n
+            if(root==null){
+                return -1;
+            }
+            if(root.data==n){
+                return 0;
+            }
+
+            int lefDis= KAncestor(root.leftNode, n, k);
+            int righDis=KAncestor(root.righNode, n, k);
+
+            if(lefDis==-1 && righDis==-1){
+                return -1;
+            }
+
+            int max= Math.max(lefDis, righDis);
+            if(max+1==k){
+                return root.data;
+            }
+            return max+1;
+        }
+
+        public static int transformSumTree(Node root){//O(n) node transformed as sum of its whole left and right branch
+            if(root==null){
+                return 0;
+            }
+            int leftVal= transformSumTree(root.leftNode);
+            int rightVal= transformSumTree(root.righNode);
+
+            int data= root.data;
+            int newLeft= root.leftNode==null? 0: root.leftNode.data;
+            int newRight= root.righNode==null?0: root.righNode.data;
+
+            root.data= leftVal+ newLeft+rightVal+ newRight;
+
+            return data;
+
+        }
+
+        public  static void preeorder(Node root){
+            if(root==null){
+                return;
+            }
+
+            System.out.print(root.data+" ");
+            preeorder(root.leftNode);
+            preeorder(root.righNode);
+        }
+
     }
 
     public static void main(String[] args) {
-        int nodes[]={1,2,4,-1,-1,5,-1,-1,3,-1,6,2,-1,-1,-1};
+        int nodes[]={1,2,4,-1,-1,5,-1,-1,3,2,-1,-1,6,-1,-1};
         BinaryTree tree= new BinaryTree();
         Node root= tree.builtTrees(nodes);
 
@@ -346,8 +425,11 @@ public class BinaryTrees {
         //tree.topView(root);
         //tree.printKlevel(root, 1, 2);
         //System.out.println(tree.lca(root, 5, 6).data);
-        System.out.println(tree.lca2(root, 5, 6).data);
-
+        //System.out.println(tree.lca2(root, 5, 6).data);
+        //System.out.println(tree.minDis(root, 5, 6));
+        //System.out.println(tree.KAncestor(root, 5, 2));
+        tree.transformSumTree(root);
+        tree.preeorder(root);
 
     }
 }
